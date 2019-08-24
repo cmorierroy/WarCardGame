@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
+    
+    var audioPlayer:AVAudioPlayer?
     
     @IBOutlet weak var leftImageView: UIImageView!
     
@@ -40,14 +43,34 @@ class ViewController: UIViewController {
             //left side wins
             leftScore += 1
             leftScoreLabel.text = String(leftScore)
+            
+            guard let path = Bundle.main.path(forResource: "win", ofType: "wav") else {return}
+            let url = URL(fileURLWithPath: path)
+            audioPlayer = try? AVAudioPlayer(contentsOf: url, fileTypeHint: nil)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.setVolume(0.5, fadeDuration: 0.1)
+            audioPlayer?.play()
         }
         else if leftNumber < rightNumber {
             //right side wins
             rightScore += 1
             rightScoreLabel.text = String(rightScore)
+            
+            guard let path = Bundle.main.path(forResource: "lose", ofType: "wav") else {return}
+            let url = URL(fileURLWithPath: path)
+            audioPlayer = try? AVAudioPlayer(contentsOf: url, fileTypeHint: nil)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.setVolume(0.5, fadeDuration: 0.1)
+            audioPlayer?.play()
         }
         else {
             //tie
+            guard let path = Bundle.main.path(forResource: "tie", ofType: "wav") else {return}
+            let url = URL(fileURLWithPath: path)
+            audioPlayer = try? AVAudioPlayer(contentsOf: url, fileTypeHint: nil)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.setVolume(0.5, fadeDuration: 0.1)
+            audioPlayer?.play()
         }
     }
     
